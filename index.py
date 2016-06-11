@@ -1,7 +1,9 @@
-#!<your/path>.envs/crud-api/bin/python
+#!/Users/rowland/.envs/crud-api/bin/python
 
-from flask import Flask, jsonify, abort, make_response, request
+from flask import Flask, jsonify, abort, make_response, request, url_for
+from flask_httpauth import HTTPBasicAuth
 
+auth = HTTPBasicAuth()
 app = Flask(__name__)
 
 tasks = [
@@ -23,10 +25,43 @@ tasks = [
 ]
 
 
+# Definition for helper function to get the uri of each task
+def make_uri(task):
+    new_task = {}
+    for field in task:
+        if field == 'id':
+            new_task['uri'] = url_for('get_task', task_id=task['id'], _external=True)
+        else:
+            new_task[field] = task[field]
+    return new_task
+
+
+# Getting password and authenticating routs
+
+users = {
+    'Rowland': 'ALMIGHTY',
+    'Ekemezie': 'Igwebuike'
+}
+
+
+@auth.get_password
+def get_password(username):
+    for user in users:
+        if username == user:
+            return users.get(username)
+    return None
+
+
 @app.route('/crud-api/api/v1/tasks', methods=['GET'])
+@auth.login_required
 def get_tasks():
     print 'This is the index file. Do you like what am up to'
-    return jsonify({'tasks': tasks})
+    return jsonify({'tasks': [make_uri(task) for task in tasks]})
+
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Not authorized'}), 401)
 
 
 @app.route('/crud-api/api/v1/tasks/<int:task_id>', methods=['GET'])
