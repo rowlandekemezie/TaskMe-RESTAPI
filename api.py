@@ -4,7 +4,7 @@ from flask import Flask, jsonify, abort, make_response, request, url_for
 from flask_httpauth import HTTPBasicAuth
 
 auth = HTTPBasicAuth()
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="")
 
 tasks = [
     {"id": 1,
@@ -37,7 +37,6 @@ def make_uri(task):
 
 
 # Getting password and authenticating routs
-
 users = {
     'Rowland': 'ALMIGHTY',
     'Ekemezie': 'Igwebuike'
@@ -46,6 +45,7 @@ users = {
 
 @auth.get_password
 def get_password(username):
+    print 'Got here man'
     for user in users:
         if username == user:
             return users.get(username)
