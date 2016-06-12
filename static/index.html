@@ -55,15 +55,15 @@
                 <p data-bind="text: description">Task description</p>
             </td>
             <td>
-            <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
-            <button data-bind="click: $parent.remove" class="btn">Delete</button>
+                <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+                <button data-bind="click: $parent.remove" class="btn">Delete</button>
             <span data-bind="visible: done">
             <button data-bind="click: $parent.markInProgress" class="btn">In progress</button>
             </span>
             <span data-bind="visible: !done()">
             <button data-bind="click: $parent.markDone" class="btn">Done</button>
             </span>
-            <progress></progress>
+                <progress></progress>
             </td>
         </tr>
         <!-- /ko -->
@@ -131,9 +131,30 @@
             </div>
         </form>
     </div>
+</div> <!-- end of edit dialog box -->
+<div id="login" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-header">
+        <h3 id="loginLabel">Sign In</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputUsername">Username</label>
+                <div class="controls">
+                    <input data-bind="value: username" type="text" id="inputUsername" placeholder="Username">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">Password</label>
+                <div class="controls">
+                    <input data-bind="value: password" type="password" id="inputPassword" placeholder="Password">
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="modal-footer">
-        <button data-bind="click: editTask" class="btn btn-primary">Update Task</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button data-bind="click: login" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Sign In
+        </button>
     </div>
 </div>
 

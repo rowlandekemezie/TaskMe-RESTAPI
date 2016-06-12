@@ -1,6 +1,5 @@
 'use strict';
 
-
 function TasksViewModel() {
     var self = this;
     self.username = '',
@@ -46,16 +45,28 @@ function TasksViewModel() {
     self.markDone = function (task) {
         task.done(true);
     };
-    self.ajax(self.uri, 'GET').then(function (data) {
-        for (var i = 0; i < data.tasks.length; i++) {
-            self.tasks.push({
-                uri: ko.observable(data.tasks[i].uri),
-                title: ko.observable(data.tasks[i].title),
-                description: ko.observable(data.tasks[i].description),
-                done: ko.observable(data.tasks[i].done)
-            })
-        }
-    })
+    self.beginLogin = function () {
+        $('#login').modal('show');
+    };
+    self.login = function (username, password) {
+        self.username = username;
+        self.password = password;
+        self.ajax(self.uri, 'GET').then(function (data) {
+            for (var i = 0; i < data.tasks.length; i++) {
+                self.tasks.push({
+                    uri: ko.observable(data.tasks[i].uri),
+                    title: ko.observable(data.tasks[i].title),
+                    description: ko.observable(data.tasks[i].description),
+                    done: ko.observable(data.tasks[i].done)
+                });
+            }
+        }, function (jqXHR) {
+            if (jqXHR.status == 403)
+                setTimeout(self.beginLogin, 500);
+        });
+    };
+
+    self.beginLogin();
 
     // The post request to resource
     self.add = function (data) {
@@ -147,7 +158,7 @@ function EditTaskViewModel() {
         });
     }
 }
-// authenttication class
+// Authenttication class
 function LoginViewModel() {
     var self = this;
     self.username = ko.observable();

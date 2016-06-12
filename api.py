@@ -55,7 +55,6 @@ def get_password(username):
 @app.route('/crud-api/api/v1/tasks', methods=['GET'])
 @auth.login_required
 def get_tasks():
-    print 'This is the index file. Do you like what am up to'
     return jsonify({'tasks': [make_uri(task) for task in tasks]})
 
 
@@ -65,6 +64,7 @@ def unauthorized():
 
 
 @app.route('/crud-api/api/v1/tasks/<int:task_id>', methods=['GET'])
+@auth.login_required
 def get_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0:
@@ -73,6 +73,7 @@ def get_task(task_id):
 
 
 @app.route('/crud-api/api/v1/tasks', methods=['POST'])
+@auth.login_required
 def create_task():
     if not request.json or 'title' not in request.json:
         abort(400)
@@ -87,6 +88,7 @@ def create_task():
 
 
 @app.route('/crud-api/api/v1/tasks/<int:task_id>', methods=['PUT'])
+@auth.login_required
 def update_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0 or not request.json:
@@ -104,6 +106,7 @@ def update_task(task_id):
 
 
 @app.route('/crud-api/api/v1/tasks/<int:task_id>', methods=['DELETE'])
+@auth.login_required
 def delete_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0:
