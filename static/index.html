@@ -21,8 +21,6 @@
 <body>
 <div id="main" class="container">
 
-    <!-- The justified navigation menu is meant for single line per list item.
-         Multiple lines will require custom code not provided by Bootstrap. -->
     <div class="masthead">
         <h3 class="text-muted">Taskme</h3>
         <nav>
@@ -56,27 +54,93 @@
                 <p data-bind="text: title"><b>Task title</b></p>
                 <p data-bind="text: description">Task description</p>
             </td>
-            <!--<td>-->
-                <!--<button data-bind="click: $parent:beginEdit" class="btn">Edit</button>-->
-                <!--<button data-bind="click: $parent:remove" class="btn">Delete</button>-->
-                <!--<span data-bind="visible: done">-->
-                    <!--<button data-bind="click: $parent:markInProgress" class="btn">In progress</button>-->
-                <!--</span>-->
-                <!--<span data-bind="visible: !done()">-->
-                    <!--<button data-bind="click: $parent:markDone" class="btn">Done</button>-->
-                <!--</span>-->
-                <!--&lt;!&ndash;<progress></progress>&ndash;&gt;-->
-            <!--</td> -->
+            <td>
+            <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+            <button data-bind="click: $parent.remove" class="btn">Delete</button>
+            <span data-bind="visible: done">
+            <button data-bind="click: $parent.markInProgress" class="btn">In progress</button>
+            </span>
+            <span data-bind="visible: !done()">
+            <button data-bind="click: $parent.markDone" class="btn">Done</button>
+            </span>
+            <progress></progress>
+            </td>
         </tr>
         <!-- /ko -->
     </table>
     <button data-bind="click: beginAdd" class="btn">Add Task</button>
-
-    <!-- Site footer -->
-    <footer class="footer">
-        <p>&copy; Task manager 2015 Company, Inc.</p>
-    </footer>
 </div> <!-- /container -->
+<div id="add" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="addDialogLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="addDialogLabel">Add Task</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputTask">Task</label>
+                <div class="controls">
+                    <input data-bind="value: title" type="text" id="inputTask" placeholder="Task title"
+                           style="width: 150px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Description</label>
+                <div class="controls">
+                    <input data-bind="value: description" type="text" id="inputDescription"
+                           placeholder="Description" style="width: 300px;">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button data-bind="click: addTask" class="btn btn-primary">Add Task</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+</div> <!-- End of add Task -->
+
+<div id="edit" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="editDialogLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="editDialogLabel">Edit Task</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputTask">Task</label>
+                <div class="controls">
+                    <input data-bind="value: title" type="text" id="inputTask" placeholder="Task title"
+                           style="width: 150px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Description</label>
+                <div class="controls">
+                    <input data-bind="value: description" type="text" id="inputDescription"
+                           placeholder="Description" style="width: 300px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input data-bind="checked: done" type="checkbox"> Done
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button data-bind="click: editTask" class="btn btn-primary">Update Task</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+</div>
+
+<!-- Site footer -->
+<footer class="footer">
+    <p>&copy; Task manager 2015 Company, Inc.</p>
+</footer>
 <script type="text/javascript" src="scripts/application.js"></script>
 </body>
 </html>
