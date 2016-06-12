@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="A task management application built with python and knockoutjs">
+    <meta name="author" content="Rowland Ekemezie">
+
+    <title>Task management application</title>
+
+    <!-- Custom styles for this template -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="main" class="container">
+
+    <div class="masthead">
+        <h3 class="text-muted">Taskme</h3>
+        <nav>
+            <ul class="nav nav-justified">
+
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1>Task management application</h1>
+        <p class="lead">Keep yourself updated about your day to day schedule</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+    </div>
+
+    <!-- Example row of columns -->
+    <table class="table table-striped">
+        <tr>
+            <td style="width: 1px;"></td>
+            <td><b>Tasks</b></td>
+            <td><b>Actions</b></td>
+        </tr>
+        <!-- ko foreach: tasks -->
+        <tr>
+            <td>
+                <span data-bind="visible: done" class="label label-success">Done</span>
+                <span data-bind="visible: !done()" class="label label-success">In progress</span>
+            </td>
+            <td>
+                <p data-bind="text: title"><b>Task title</b></p>
+                <p data-bind="text: description">Task description</p>
+            </td>
+            <td>
+                <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+                <button data-bind="click: $parent.remove" class="btn">Delete</button>
+            <span data-bind="visible: done">
+            <button data-bind="click: $parent.markInProgress" class="btn">In progress</button>
+            </span>
+            <span data-bind="visible: !done()">
+            <button data-bind="click: $parent.markDone" class="btn">Done</button>
+            </span>
+                <progress></progress>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </table>
+    <button data-bind="click: beginAdd" class="btn">Add Task</button>
+</div> <!-- /container -->
+<div id="add" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="addDialogLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="addDialogLabel">Add Task</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputTask">Task</label>
+                <div class="controls">
+                    <input data-bind="value: title" type="text" id="inputTask" placeholder="Task title"
+                           style="width: 150px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Description</label>
+                <div class="controls">
+                    <input data-bind="value: description" type="text" id="inputDescription"
+                           placeholder="Description" style="width: 300px;">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button data-bind="click: addTask" class="btn btn-primary">Add Task</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+</div> <!-- End of add Task -->
+
+<div id="edit" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="editDialogLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="editDialogLabel">Edit Task</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputTask">Task</label>
+                <div class="controls">
+                    <input data-bind="value: title" type="text" id="inputTask" placeholder="Task title"
+                           style="width: 150px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Description</label>
+                <div class="controls">
+                    <input data-bind="value: description" type="text" id="inputDescription"
+                           placeholder="Description" style="width: 300px;">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input data-bind="checked: done" type="checkbox"> Done
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> <!-- end of edit dialog box -->
+<div id="login" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-header">
+        <h3 id="loginLabel">Sign In</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="inputUsername">Username</label>
+                <div class="controls">
+                    <input data-bind="value: username" type="text" id="inputUsername" placeholder="Username">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">Password</label>
+                <div class="controls">
+                    <input data-bind="value: password" type="password" id="inputPassword" placeholder="Password">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button data-bind="click: login" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Sign In
+        </button>
+    </div>
+</div>
+
+<!-- Site footer -->
+<footer class="footer">
+    <p>&copy; Task manager 2015 Company, Inc.</p>
+</footer>
+<script type="text/javascript" src="scripts/application.js"></script>
+</body>
+</html>
